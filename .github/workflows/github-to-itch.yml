@@ -1,0 +1,58 @@
+name: Upload to itch.io
+
+on: push
+
+env:
+  ITCH_USERNAME: Lemeric
+  ITCH_GAME_ID: https://lemeric.itch.io/possession-game-idk
+
+jobs:
+  build:
+    name: Build Game
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Godot
+        uses: chickensoft-games/setup-godot@v1
+        with:
+          version: 4.4.0
+          use-dotnet: false
+          include-templates: true
+
+      - name: Export WebGL build
+        run: |
+          godot --headless --export-release "Web" exports/web/index.html
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: webgl
+          path: exports/web
+
+  deploy:
+    name: Upload to Itch
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: webgl
+          path: build/webgl
+
+      - name: Upload to Itch.io - WebGL
+        uses: KikimoraGames/itch-publish@v0.0.3
+        with:
+          butlerApiKey: ${{ secrets.BUTLER_API_KEY }}
+          gameData: ./build/webgl
+          itchUsername: ${{ env.ITCH_USERNAME }}
+          itchGameId: ${{ env.ITCH_GAME_ID }}
+          buildChannel: webgl
+          buildNumber: ${{ github.sha }}
