@@ -1,2 +1,2 @@
-# possession-game-jam
-Google Developer Groups game jam, stuff.
+# Deliverance
+Game jam held by our university's Google Developer Groups on Campus team.

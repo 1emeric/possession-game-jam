@@ -1,0 +1,155 @@
+[gd_scene load_steps=11 format=3 uid="uid://ch2y1lvw68yit"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_6p6u5"]
+radius = 32.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_6p6u5"]
+radius = 21.0
+height = 112.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_nw8yn"]
+height = 50.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_wq6pb"]
+height = 50.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_yqywm"]
+height = 50.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_6557p"]
+height = 50.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8carh"]
+height = 60.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_watlg"]
+height = 60.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_t3kn5"]
+height = 60.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_jfdum"]
+height = 60.0
+
+[node name="Puppet" type="Node2D"]
+
+[node name="Head" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Head"]
+shape = SubResource("CircleShape2D_6p6u5")
+
+[node name="Torso" type="RigidBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Torso"]
+position = Vector2(0, 91)
+shape = SubResource("CapsuleShape2D_6p6u5")
+
+[node name="Arms" type="Node2D" parent="."]
+
+[node name="LeftArm" type="Node2D" parent="Arms"]
+
+[node name="UpperArm" type="RigidBody2D" parent="Arms/LeftArm"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Arms/LeftArm/UpperArm"]
+position = Vector2(-37, 65)
+rotation = 0.261799
+shape = SubResource("CapsuleShape2D_nw8yn")
+
+[node name="LowerArm" type="RigidBody2D" parent="Arms/LeftArm"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Arms/LeftArm/LowerArm"]
+position = Vector2(-43, 115)
+shape = SubResource("CapsuleShape2D_wq6pb")
+
+[node name="RightArm" type="Node2D" parent="Arms"]
+
+[node name="UpperArm" type="RigidBody2D" parent="Arms/RightArm"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Arms/RightArm/UpperArm"]
+position = Vector2(37, 65)
+rotation = -0.261799
+scale = Vector2(1, 1)
+shape = SubResource("CapsuleShape2D_yqywm")
+
+[node name="LowerArm" type="RigidBody2D" parent="Arms/RightArm"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Arms/RightArm/LowerArm"]
+position = Vector2(43, 115)
+shape = SubResource("CapsuleShape2D_6557p")
+
+[node name="Legs" type="Node2D" parent="."]
+
+[node name="LeftLeg" type="Node2D" parent="Legs"]
+
+[node name="UpperLeg" type="RigidBody2D" parent="Legs/LeftLeg"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Legs/LeftLeg/UpperLeg"]
+position = Vector2(-15, 175)
+shape = SubResource("CapsuleShape2D_8carh")
+
+[node name="LowerLeg" type="RigidBody2D" parent="Legs/LeftLeg"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Legs/LeftLeg/LowerLeg"]
+position = Vector2(-15, 236)
+shape = SubResource("CapsuleShape2D_watlg")
+
+[node name="RightLeg" type="Node2D" parent="Legs"]
+
+[node name="UpperLeg" type="RigidBody2D" parent="Legs/RightLeg"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Legs/RightLeg/UpperLeg"]
+position = Vector2(15, 175)
+shape = SubResource("CapsuleShape2D_t3kn5")
+
+[node name="LowerLeg" type="RigidBody2D" parent="Legs/RightLeg"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Legs/RightLeg/LowerLeg"]
+position = Vector2(15, 236)
+shape = SubResource("CapsuleShape2D_jfdum")
+
+[node name="Joints" type="Node2D" parent="."]
+
+[node name="Neck" type="PinJoint2D" parent="Joints"]
+position = Vector2(0, 34)
+node_a = NodePath("../../Head")
+node_b = NodePath("../../Torso")
+
+[node name="RightShoulder" type="PinJoint2D" parent="Joints"]
+position = Vector2(21, 47)
+node_a = NodePath("../../Torso")
+node_b = NodePath("../../Arms/RightArm/UpperArm")
+
+[node name="LeftShoulder" type="PinJoint2D" parent="Joints"]
+position = Vector2(-21, 46)
+node_a = NodePath("../../Torso")
+node_b = NodePath("../../Arms/LeftArm/UpperArm")
+
+[node name="LeftElbow" type="PinJoint2D" parent="Joints"]
+position = Vector2(-42, 89)
+node_a = NodePath("../../Arms/LeftArm/UpperArm")
+node_b = NodePath("../../Arms/LeftArm/LowerArm")
+
+[node name="RightElbow" type="PinJoint2D" parent="Joints"]
+position = Vector2(43, 90)
+node_a = NodePath("../../Arms/RightArm/UpperArm")
+node_b = NodePath("../../Arms/RightArm/LowerArm")
+
+[node name="LeftKnee" type="PinJoint2D" parent="Joints"]
+position = Vector2(-15, 206)
+node_a = NodePath("../../Legs/LeftLeg/UpperLeg")
+node_b = NodePath("../../Legs/LeftLeg/LowerLeg")
+
+[node name="RightKnee" type="PinJoint2D" parent="Joints"]
+position = Vector2(15, 206)
+node_a = NodePath("../../Legs/RightLeg/UpperLeg")
+node_b = NodePath("../../Legs/RightLeg/LowerLeg")
+
+[node name="LeftHip" type="PinJoint2D" parent="Joints"]
+position = Vector2(-15, 144)
+node_a = NodePath("../../Torso")
+node_b = NodePath("../../Legs/LeftLeg/UpperLeg")
+
+[node name="RightHip" type="PinJoint2D" parent="Joints"]
+position = Vector2(15, 144)
+node_a = NodePath("../../Torso")
+node_b = NodePath("../../Legs/RightLeg/UpperLeg")
